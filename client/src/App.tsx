@@ -19,8 +19,7 @@ export const NODE_URL = "https://fullnode.devnet.aptoslabs.com";
 export const client = new AptosClient(NODE_URL);
 // change this to be your module account address
 export const moduleAddress =
-  "0xc650b9f788520bdecf89316bccf8f90e259b0359fbb0b845d975d72ea7e62b21";
-
+  "0xa604279e6129beb5fa225673daa13f0fa87095e9a576687d1924120a7777b2be";
 function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTask, setNewTask] = useState<string>("");
@@ -39,9 +38,9 @@ function App() {
     try {
       const todoListResource = await client.getAccountResource(
         account?.address,
-        `${moduleAddress}::main::TodoList`
+        `${moduleAddress}::todolist::TodoList`
       );
-      console.log(account);
+      console.log(todoListResource);
       setAccountHasList(true);
       // tasks table handle
       const tableHandle = (todoListResource as any).data.tasks.handle;
@@ -53,7 +52,7 @@ function App() {
       while (counter <= taskCounter) {
         const tableItem = {
           key_type: "u64",
-          value_type: `${moduleAddress}::main::Task`,
+          value_type: `${moduleAddress}::todolist::Task`,
           key: `${counter}`,
         };
         const task = await client.getTableItem(tableHandle, tableItem);
@@ -66,6 +65,7 @@ function App() {
       setAccountHasList(false);
     }
   };
+  //이데아댐
 
   const addNewList = async () => {
     if (!account) return [];
@@ -73,13 +73,15 @@ function App() {
     // build a transaction payload to be submited
     const payload = {
       type: "entry_function_payload",
-      function: `${moduleAddress}::main::create_list`,
+      function: `${moduleAddress}::todolist::create_list`,
       type_arguments: [],
       arguments: [],
     };
+    console.log(payload);
     try {
       // sign and submit transaction to chain
       const response = await signAndSubmitTransaction(payload);
+      console.log(response);
       // wait for transaction
       await client.waitForTransaction(response.hash);
       setAccountHasList(true);
@@ -97,7 +99,7 @@ function App() {
     // build a transaction payload to be submited
     const payload = {
       type: "entry_function_payload",
-      function: `${moduleAddress}::main::create_task`,
+      function: `${moduleAddress}::todolist::create_task`,
       type_arguments: [],
       arguments: [newTask],
     };

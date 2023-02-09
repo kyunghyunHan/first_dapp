@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@aptos-labs/wallet-adapter-ant-design": "^0.1.0",
-    "@aptos-labs/wallet-adapter-react": "^0.2.2",
+    "@aptos-labs/wallet-adapter-react": "^0.2.4",
     "@martianwallet/aptos-wallet-adapter": "^0.0.3",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
