@@ -1,7 +1,7 @@
 # first_dapp
 
 ```
-aptos init --network devnet
+aptos init --network testnet
 ```
 
 - key:구조체를 저장소 식별자로 사용,최상위 레벨에 저장되어 저장소역활
@@ -28,4 +28,16 @@ npm i @aptos-labs/wallet-adapter-react@0.2.2
 
 ```
 npm i petra-plugin-wallet-adapter
+```
+
+```
+aptos move test
+```
+
+```
+aptos move compile
+```
+
+```
+aptos move publish
 ```

@@ -15,7 +15,7 @@ type Task = {
   task_id: string;
 };
 
-export const NODE_URL = "https://fullnode.devnet.aptoslabs.com";
+export const NODE_URL = "https://fullnode.testnet.aptoslabs.com";
 export const client = new AptosClient(NODE_URL);
 // change this to be your module account address
 export const moduleAddress =
@@ -103,7 +103,7 @@ function App() {
       type_arguments: [],
       arguments: [newTask],
     };
-
+    console.log(payload);
     // hold the latest task.task_id from our local state
     const latestId =
       tasks.length > 0 ? parseInt(tasks[tasks.length - 1].task_id) + 1 : 1;
@@ -121,7 +121,7 @@ function App() {
       const response = await signAndSubmitTransaction(payload);
       // wait for transaction
       await client.waitForTransaction(response.hash);
-
+      console.log(response);
       // Create a new array based on current state:
       let newTasks = [...tasks];
 
@@ -147,7 +147,7 @@ function App() {
     setTransactionInProgress(true);
     const payload = {
       type: "entry_function_payload",
-      function: `${moduleAddress}::main::complete_task`,
+      function: `${moduleAddress}::todolist::complete_task`,
       type_arguments: [],
       arguments: [taskId],
     };
@@ -181,7 +181,7 @@ function App() {
   useEffect(() => {
     fetchList();
   }, [account?.address]);
-
+  console.log(tasks);
   return (
     <>
       <Layout>
@@ -257,11 +257,17 @@ function App() {
                           <a
                             href={`https://explorer.aptoslabs.com/account/${task.address}/`}
                             target="_blank"
-                          >{`${task.address.slice(0, 6)}...${task.address.slice(
-                            -5
-                          )}`}</a>
+                          >
+                            {`${task.address.slice(
+                              0,
+                              6
+                            )}...${task.address.slice(-5)}`}
+                          </a>
                         }
                       />
+                      <div>
+                        <>{task.content}</>
+                      </div>
                     </List.Item>
                   )}
                 />
